@@ -6,6 +6,42 @@ plugins {
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
+def dartEnvironmentVariables = [
+    APP_FLAVOR: project.hasProperty('mode')
+];
+
+if (project.hasProperty('dart-defines')) {
+    dartEnvironmentVariables = dartEnvironmentVariables +
+        project.property('dart-defines')
+            .split(',')
+            .collectEntries { entry ->
+                def pair = new String(entry.decodeBase64(), 'UTF-8').split('=')
+                if (pair.first() == 'mode') {
+                  project.ext.APP_FLAVOR = pair.last()
+                }
+                [(pair.first()): pair.last()]
+            }
+}
+
+def renamePath = { outputFileName ->
+  gradle.projectsEvaluated {
+    tasks.whenObjectAdded { task ->
+      task.doLast {
+        def flutterApkDir = new File("${project.buildDir}/outputs/flutter-apk/app-release.apk")
+        if (flutterApkDir.exists()) {
+          flutterApkDir.renameTo(new File("${project.buildDir}/outputs/flutter-apk/$outputFileName"))
+        }
+      }
+    }
+  }
+}
+
+def appFlavor() {
+  if (project.hasProperty('APP_FLAVOR')) {
+    return "${project.ext.APP_FLAVOR}_"
+  }
+}
+
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
@@ -56,6 +92,18 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    if(appFlavor() != null){
+                         def appName = variant.getMergedFlavor().applicationId
+                         int lastIndex = appName.lastIndexOf('.')
+                         def modifiedAppName = lastIndex != -1 ? appName.substring(lastIndex + 1) : appName
+                         outputFileName = "${modifiedAppName}_${appFlavor()}${flutterVersionName}(${flutterVersionCode}).apk"
+                         renamePath(outputFileName)
+                    }
+                }
+            }
+        
         }
     }
 }
