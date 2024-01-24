@@ -224,7 +224,7 @@ class ApiClient {
   void _handleDioError(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
-        ViewUtil.snackbar("Time out delay ");
+        ViewUtil.snackbar("Time out delay");
         break;
       case DioExceptionType.receiveTimeout:
         ViewUtil.snackbar("Server is not responded properly");
@@ -270,15 +270,19 @@ class ApiClient {
 
   void _tempErrorHandle(DioException error) async {
     final Map data = json.decode(error.response.toString());
-    "_tempErrorHandle :: $data".log();
+    "_tempErrorHandle :: ${data["message"]}".log();
     if (error.response?.statusCode == 403) {
       ViewUtil.snackbar("Forbidden");
+    } else if (error.response?.statusCode == 303) {
+      ViewUtil.snackbar("Moved permanently");
     } else if (error.response?.statusCode == 502) {
       ViewUtil.snackbar("Something went wrong");
+    } else if (error.response?.statusCode == 404) {
+      ViewUtil.snackbar("Resource not found");
     } else if (error.response?.statusCode == 422) {
       ViewUtil.snackbar("Validation failed, or the endpoint has been spammed.");
     } else {
-      ViewUtil.snackbar("Something went wrong");
+      ViewUtil.snackbar(data["message"]);
     }
   }
 }

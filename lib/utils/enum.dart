@@ -22,3 +22,11 @@ enum SvgFor {
   asset,
   network,
 }
+
+
+enum AppStatus {
+  initial,
+  success,
+  error,
+  loading,
+}

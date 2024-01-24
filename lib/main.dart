@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 //localization
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +12,7 @@ import '/utils/enum.dart';
 import '/utils/navigation.dart';
 import '/utils/network_connection.dart';
 import '/utils/styles/k_colors.dart';
+import 'utils/mixin/bloc_provider_mixin.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +37,7 @@ initServices() async {
   await NetworkConnection.instance.internetAvailable();
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget with BlocProviderMixin {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
@@ -46,31 +48,34 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 800),
       minTextAdapt: true,
       builder: (ctx, child) {
-        return MaterialApp(
-          title: 'Top Flutter Repository',
-          navigatorKey: Navigation.key,
+        return MultiBlocProvider(
+          providers: blocProviders(),
+          child: MaterialApp(
+            title: 'Top Flutter Repository',
+            navigatorKey: Navigation.key,
 
-          debugShowCheckedModeBanner: false,
+            debugShowCheckedModeBanner: false,
 
-          /// localization
-          supportedLocales: AppLocalizations.supportedLocales,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          locale: (PrefHelper.getLanguage() == 1)
-              ? const Locale('en', 'US')
-              : const Locale('bn', 'BD'),
-          theme: ThemeData(
-            progressIndicatorTheme: ProgressIndicatorThemeData(
-              color: KColor.secondary.color,
+            /// localization
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            locale: (PrefHelper.getLanguage() == 1)
+                ? const Locale('en', 'US')
+                : const Locale('bn', 'BD'),
+            theme: ThemeData(
+              progressIndicatorTheme: ProgressIndicatorThemeData(
+                color: KColor.secondary.color,
+              ),
+              textTheme: GoogleFonts.poppinsTextTheme(),
+              primaryColor: KColor.primary.color,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              colorScheme: ThemeData().colorScheme.copyWith(
+                    secondary: KColor.secondary.color,
+                  ),
+              primarySwatch: KColor.primary.color as MaterialColor,
             ),
-            textTheme: GoogleFonts.poppinsTextTheme(),
-            primaryColor: KColor.primary.color,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            colorScheme: ThemeData().colorScheme.copyWith(
-                  secondary: KColor.secondary.color,
-                ),
-            primarySwatch: KColor.primary.color as MaterialColor,
+            home: child,
           ),
-          home: child,
         );
       },
       child: const RepoListScreen(),
@@ -91,5 +96,6 @@ _setModeFlavor(mode) {
       break;
     default:
       AppUrlExtention.setUrl(UrlLink.isProd);
+      break;
   }
 }
