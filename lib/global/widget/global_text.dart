@@ -44,6 +44,7 @@ class GlobalText extends StatelessWidget {
       overflow: overflow,
       textAlign: textAlign,
       softWrap: softwrap,
+      textScaler: const TextScaler.linear(1),
       style: style ??
           TextStyle(
             color: color ?? Colors.black,

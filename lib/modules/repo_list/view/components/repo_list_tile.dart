@@ -13,6 +13,7 @@ class RepoListItem extends StatelessWidget {
   final RepositoryItem repoItem;
   @override
   Widget build(BuildContext context) {
+    repoItem.updatedAt?.formattedDateFromDate().log();
     return ListTile(
       onTap: () {
         Navigation.push(

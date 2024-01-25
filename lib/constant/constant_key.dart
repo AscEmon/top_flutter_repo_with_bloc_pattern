@@ -30,6 +30,7 @@ enum AppConstant {
   EN,
   BN,
   FONTFAMILY,
+  YYYY_MM_DD_THH_mm_ss_z,
 }
 
 extension AppConstantExtention on AppConstant {
@@ -61,6 +62,9 @@ extension AppConstantExtention on AppConstant {
         return 'yyyy-MM';
       case AppConstant.YYYY_MM_DD:
         return "yyyy-MM-dd";
+      case AppConstant.YYYY_MM_DD_THH_mm_ss_z:
+        return "yyyy-MM-ddTHH:mm:ss'Z'";
+
       case AppConstant.APPLICATION_VND_GITHUB_JSON:
         return "application/vnd.github+json";
       case AppConstant.BEARER:
