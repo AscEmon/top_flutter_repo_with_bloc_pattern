@@ -6,6 +6,7 @@ enum AppConstant {
   DD_MM_YYYY,
   DD_MM_YYYY_SLASH,
   D_MMM_Y_HM,
+  MM_DD_YYYY_HM,
   D_MMM_Y,
   D_MM_Y,
   YYYY_MM,
@@ -46,6 +47,8 @@ extension AppConstantExtention on AppConstant {
         return "dd/MM/yyyy hh:mm a";
       case AppConstant.D_MMM_Y_HM:
         return "d MMMM y hh:mm a";
+      case AppConstant.MM_DD_YYYY_HM:
+        return "MM-dd-yyyy hh:mm a";
       case AppConstant.D_MM_Y:
         return "d MMM y";
       case AppConstant.D_MMM_Y:

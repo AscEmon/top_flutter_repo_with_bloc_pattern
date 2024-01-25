@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:top_flutter_repo/constant/constant_key.dart';
+import 'package:top_flutter_repo/utils/extension.dart';
 
 import '../../../../global/widget/global_text.dart';
 import '../../../../utils/styles/styles.dart';
@@ -38,11 +40,13 @@ class RepoListItem extends StatelessWidget {
           Row(
             children: [
               const GlobalText(
-                str: "Created At: ",
+                str: "Updated At: ",
                 fontWeight: FontWeight.bold,
               ),
               GlobalText(
-                str: repoItem.createdAt?.toIso8601String() ?? "",
+                str: repoItem.updatedAt?.formattedDateFromDate(
+                        AppConstant.MM_DD_YYYY_HM.key) ??
+                    "",
               ),
             ],
           ),

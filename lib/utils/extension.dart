@@ -1,4 +1,3 @@
-
 import 'dart:developer' as darttools show log;
 
 import 'package:flutter/material.dart';
@@ -7,9 +6,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart'
 import 'package:intl/intl.dart';
 
 import '/constant/constant_key.dart';
-
-
-
 
 extension Context on BuildContext {
 //this extention is for localization
@@ -28,10 +24,7 @@ extension Context on BuildContext {
   //Bottom Notch Check
   bool get bottomNotch =>
       MediaQuery.of(this).viewPadding.bottom > 0 ? true : false;
-
-
 }
-
 
 extension NumGenericExtensions<T extends String> on T {
   double parseToDouble() {
@@ -55,8 +48,6 @@ extension NumGenericExtensions<T extends String> on T {
   }
 }
 
-
-
 extension WidgetExtention on Widget {
   Widget centerCircularProgress({Color? progressColor}) => Center(
         child: CircularProgressIndicator.adaptive(
@@ -71,7 +62,8 @@ extension Log on Object {
 
 // It will formate the date which will show in our application.
 extension FormatedDateExtention on DateTime {
-  String get formattedDate => DateFormat(AppConstant.MMM.key).format(this);
+  String formattedDateFromDate(String format) =>
+      DateFormat(format).format(this);
 }
 
 extension FormatedDateExtentionString on String {
