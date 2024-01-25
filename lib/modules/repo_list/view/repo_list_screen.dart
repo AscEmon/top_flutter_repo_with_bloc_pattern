@@ -27,6 +27,7 @@ class _RepoListScreenState extends State<RepoListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: GlobalAppBar(title: "Top Flutter Repository"),
       body: Padding(
@@ -42,6 +43,7 @@ class _RepoListScreenState extends State<RepoListScreen> {
                   if (state.fetchRepoStatus == AppStatus.success) {
                     if (state.repoListItem?.isNotEmpty == true) {
                       return ListView.separated(
+                        controller: state.scrollController,
                         itemCount: state.repoListItem!.length,
                         separatorBuilder: (context, index) {
                           return SizedBox(height: 10.h);

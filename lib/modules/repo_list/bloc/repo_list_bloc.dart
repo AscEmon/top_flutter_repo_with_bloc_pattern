@@ -1,25 +1,33 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '/modules/repo_list/bloc/repo_list_state.dart';
 
 import '../../../utils/enum.dart';
 import '../model/repo_list_response.dart';
 import '../repository/repo_list_interface.dart';
 import '../repository/repo_list_repository.dart';
+import '/modules/repo_list/bloc/repo_list_state.dart';
 import 'repo_list_event.dart';
 
 class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
+  int paginatedPageNo = 1;
   final IRepoListRepository _iRepoListRepository = RepoListRepository();
-  RepoListBloc() : super(const RepoListState()) {
+  RepoListBloc() : super(RepoListState(scrollController: ScrollController())) {
     on<LoadRepoListEvent>(_fetchRepos);
+    state.scrollController?.addListener(() {
+      add(PaginationListEvent());
+    });
+    on<PaginationListEvent>(_scrollListener);
   }
   void _fetchRepos(LoadRepoListEvent event, Emitter<RepoListState> emit) async {
     try {
       List<RepositoryItem> result =
           await _iRepoListRepository.fetchRepoList(_setParams());
+      List<RepositoryItem>? tempListItem = [];
+      tempListItem.addAll(result);
       emit(
         state.copyWith(
           fetchRepoStatus: AppStatus.success,
-          repoListItem: result,
+          repoListItem: tempListItem,
         ),
       );
     } catch (error) {
@@ -27,10 +35,29 @@ class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
     }
   }
 
-  Map<String, dynamic> _setParams() {
+  Map<String, dynamic> _setParams({int page = 1}) {
     final map = <String, dynamic>{};
     map["q"] = "Flutter";
     map["per_page"] = 10;
+    map["page"] = page;
     return map;
+  }
+
+  void _scrollListener(event, emit) async {
+   
+    if (state.scrollController?.position.pixels ==
+        state.scrollController?.position.maxScrollExtent) {
+      paginatedPageNo++;
+      final newPosts = await _iRepoListRepository.fetchRepoList(
+        _setParams(page: paginatedPageNo),
+      );
+
+      emit(
+        state.copyWith(
+          fetchRepoStatus: AppStatus.success,
+          repoListItem: [...state.repoListItem!, ...newPosts],
+        ),
+      );
+    }
   }
 }
