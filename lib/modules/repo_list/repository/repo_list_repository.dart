@@ -15,7 +15,6 @@ class RepoListRepository implements IRepoListRepository {
     NetworkRequestBuilder()
         .setUrl(AppUrl.repoList.url)
         .setMethod(Method.GET)
-        .setShowLoader(true)
         .setParams(params)
         .setOnSuccess((response) {
       RepositoryListResponse res =

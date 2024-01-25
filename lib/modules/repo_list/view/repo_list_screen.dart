@@ -27,7 +27,6 @@ class _RepoListScreenState extends State<RepoListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: GlobalAppBar(title: "Top Flutter Repository"),
       body: Padding(
@@ -40,15 +39,31 @@ class _RepoListScreenState extends State<RepoListScreen> {
             Expanded(
               child: BlocBuilder<RepoListBloc, RepoListState>(
                 builder: (context, state) {
-                  if (state.fetchRepoStatus == AppStatus.success) {
+                  if (state.fetchRepoStatus == AppStatus.loading) {
+                    return const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    );
+                  } else if (state.fetchRepoStatus == AppStatus.success) {
                     if (state.repoListItem?.isNotEmpty == true) {
                       return ListView.separated(
                         controller: state.scrollController,
-                        itemCount: state.repoListItem!.length,
+                        itemCount: (state.isMoreLoaded &&
+                                state.repoListItem!.length > 7)
+                            ? state.repoListItem!.length + 1
+                            : state.repoListItem!.length,
                         separatorBuilder: (context, index) {
                           return SizedBox(height: 10.h);
                         },
                         itemBuilder: (context, index) {
+                          if (state.isMoreLoaded &&
+                              index == state.repoListItem!.length &&
+                              state.repoListItem!.length > 7) {
+                            return Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.all(8.r),
+                              child: const CircularProgressIndicator.adaptive(),
+                            );
+                          }
                           return RepoListItem(
                             repoItem: state.repoListItem![index],
                           );

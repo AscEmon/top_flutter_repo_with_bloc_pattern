@@ -11,7 +11,12 @@ import 'repo_list_event.dart';
 class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
   int paginatedPageNo = 1;
   final IRepoListRepository _iRepoListRepository = RepoListRepository();
-  RepoListBloc() : super(RepoListState(scrollController: ScrollController())) {
+  RepoListBloc()
+      : super(
+          RepoListState(
+            scrollController: ScrollController(),
+          ),
+        ) {
     on<LoadRepoListEvent>(_fetchRepos);
     state.scrollController?.addListener(() {
       add(PaginationListEvent());
@@ -44,19 +49,29 @@ class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
   }
 
   void _scrollListener(event, emit) async {
-   
     if (state.scrollController?.position.pixels ==
         state.scrollController?.position.maxScrollExtent) {
-      paginatedPageNo++;
-      final newPosts = await _iRepoListRepository.fetchRepoList(
-        _setParams(page: paginatedPageNo),
-      );
+      try {
+        emit(
+          state.copyWith(isMoreLoaded: true),
+        );
+        paginatedPageNo++;
+        final newPosts = await _iRepoListRepository.fetchRepoList(
+          _setParams(page: paginatedPageNo),
+        );
 
+        emit(
+          state.copyWith(
+            fetchRepoStatus: AppStatus.success,
+            repoListItem: [...state.repoListItem!, ...newPosts],
+          ),
+        );
+      } catch (e) {
+        emit(state.copyWith(isMoreLoaded: false));
+      }
+    } else {
       emit(
-        state.copyWith(
-          fetchRepoStatus: AppStatus.success,
-          repoListItem: [...state.repoListItem!, ...newPosts],
-        ),
+        state.copyWith(isMoreLoaded: false),
       );
     }
   }
