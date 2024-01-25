@@ -35,6 +35,7 @@ class RepositoryItem {
   String? fullName;
   bool? private;
   Owner? owner;
+  String? description;
   String? url;
   String? pullsUrl;
   DateTime? createdAt;
@@ -58,6 +59,7 @@ class RepositoryItem {
     this.nodeId,
     this.name,
     this.fullName,
+    this.description,
     this.private,
     this.owner,
     this.url,
@@ -85,6 +87,7 @@ class RepositoryItem {
         name: json["name"],
         fullName: json["full_name"],
         private: json["private"],
+        description: json["description"],
         owner: json["owner"] == null ? null : Owner.fromJson(json["owner"]),
         url: json["url"],
         pullsUrl: json["pulls_url"],
@@ -118,6 +121,7 @@ class RepositoryItem {
         "node_id": nodeId,
         "name": name,
         "full_name": fullName,
+        "description": description,
         "private": private,
         "owner": owner?.toJson(),
         "url": url,

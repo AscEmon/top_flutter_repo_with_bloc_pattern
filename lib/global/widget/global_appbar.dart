@@ -1,4 +1,4 @@
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../utils/styles/styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,6 +23,7 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       centerTitle: centerTitle,
       backgroundColor: backgroundColor,
+      iconTheme: IconThemeData(color: KColor.white.color),
       title: GlobalText(
         str: title,
         style: GoogleFonts.poppins(
@@ -39,6 +40,3 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size.fromHeight(56.h);
 }
-
-
- 

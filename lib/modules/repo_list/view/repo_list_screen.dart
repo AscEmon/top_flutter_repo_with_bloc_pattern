@@ -6,6 +6,7 @@ import 'package:top_flutter_repo/global/widget/global_text.dart';
 import 'package:top_flutter_repo/modules/repo_list/bloc/repo_list_bloc.dart';
 import 'package:top_flutter_repo/modules/repo_list/bloc/repo_list_event.dart';
 import 'package:top_flutter_repo/modules/repo_list/view/components/repo_list_tile.dart';
+import 'package:top_flutter_repo/utils/extension.dart';
 
 import '../../../utils/enum.dart';
 import '../../../utils/styles/styles.dart';
@@ -32,6 +33,7 @@ class _RepoListScreenState extends State<RepoListScreen> {
     return Scaffold(
       appBar: GlobalAppBar(
         title: "Top Flutter Repository",
+        centerTitle: true,
         actions: [
           GestureDetector(
             onTap: () {
@@ -40,7 +42,7 @@ class _RepoListScreenState extends State<RepoListScreen> {
             child: const Icon(Icons.sort),
           ),
           SizedBox.square(
-            dimension: 10.w,
+            dimension: 20.w,
           ),
         ],
       ),
@@ -55,8 +57,8 @@ class _RepoListScreenState extends State<RepoListScreen> {
               child: BlocBuilder<RepoListBloc, RepoListState>(
                 builder: (context, state) {
                   if (state.fetchRepoStatus == AppStatus.loading) {
-                    return const Center(
-                      child: CircularProgressIndicator.adaptive(),
+                    return Center(
+                      child: widget.centerCircularProgress(),
                     );
                   } else if (state.fetchRepoStatus == AppStatus.success) {
                     if (state.repoListItem?.isNotEmpty == true) {
@@ -74,14 +76,14 @@ class _RepoListScreenState extends State<RepoListScreen> {
                             return SizedBox(height: 10.h);
                           },
                           itemBuilder: (context, index) {
-                            if (state.isMoreLoaded &&
+                            bool isPagination = (state.isMoreLoaded &&
                                 index == state.repoListItem!.length &&
-                                state.repoListItem!.length > 7) {
+                                state.repoListItem!.length > 7);
+                            if (isPagination) {
                               return Container(
                                 alignment: Alignment.center,
                                 padding: EdgeInsets.all(8.r),
-                                child:
-                                    const CircularProgressIndicator.adaptive(),
+                                child: widget.centerCircularProgress(),
                               );
                             }
                             return RepoListItem(

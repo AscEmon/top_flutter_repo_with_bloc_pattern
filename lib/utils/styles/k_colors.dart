@@ -24,7 +24,7 @@ extension KColorExtention on KColor {
       case KColor.primary:
         return Colors.blue;
       case KColor.secondary:
-        return const Color(0xff5EA7FF);
+        return Colors.black;
       case KColor.accent:
         return Colors.blue;
       case KColor.red:

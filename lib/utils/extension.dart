@@ -62,8 +62,8 @@ extension Log on Object {
 
 // It will formate the date which will show in our application.
 extension FormatedDateExtention on DateTime {
-  String formattedDateFromDate(String format) =>
-      DateFormat(format).format(this);
+  String formattedDateFromDate({String? format}) =>
+      DateFormat(format ?? AppConstant.MM_DD_YYYY_HM.key).format(this);
 }
 
 extension FormatedDateExtentionString on String {
