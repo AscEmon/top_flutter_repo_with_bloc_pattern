@@ -18,15 +18,33 @@ class RepoListItem extends StatelessWidget {
       title: GlobalText(
         str: repoItem.name ?? "",
       ),
-      subtitle: GlobalText(
-        str: repoItem.owner?.url ?? "",
-      ),
-      trailing: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const GlobalText(str: "Created At"),
-          GlobalText(
-            str: repoItem.createdAt?.toIso8601String() ?? "",
+          Row(
+            children: [
+              const GlobalText(
+                str: "URL: ",
+                fontWeight: FontWeight.bold,
+              ),
+              Flexible(
+                child: GlobalText(
+                  str: repoItem.owner?.url ?? "",
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              const GlobalText(
+                str: "Created At: ",
+                fontWeight: FontWeight.bold,
+              ),
+              GlobalText(
+                str: repoItem.createdAt?.toIso8601String() ?? "",
+              ),
+            ],
           ),
         ],
       ),

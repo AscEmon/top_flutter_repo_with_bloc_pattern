@@ -30,7 +30,7 @@ class _RepoListScreenState extends State<RepoListScreen> {
     return Scaffold(
       appBar: GlobalAppBar(title: "Top Flutter Repository"),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: Column(
           children: [
             SizedBox(
