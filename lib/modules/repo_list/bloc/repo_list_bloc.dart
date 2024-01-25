@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,6 +12,9 @@ import 'repo_list_event.dart';
 
 class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
   int paginatedPageNo = 1;
+  List<RepositoryItem> tempListItem = [];
+  late Timer _apiCallTimer;
+  bool isAlreadyRefreshCall = false;
   final IRepoListRepository _iRepoListRepository = RepoListRepository();
   RepoListBloc()
       : super(
@@ -18,6 +23,7 @@ class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
           ),
         ) {
     on<LoadRepoListEvent>(_fetchRepos);
+    on<RefreshRepoListEvent>(_refreshRepoList);
     state.scrollController?.addListener(() {
       add(PaginationListEvent());
     });
@@ -27,7 +33,6 @@ class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
     try {
       List<RepositoryItem> result =
           await _iRepoListRepository.fetchRepoList(_setParams());
-      List<RepositoryItem>? tempListItem = [];
       tempListItem.addAll(result);
       emit(
         state.copyWith(
@@ -48,31 +53,50 @@ class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
     return map;
   }
 
+  void _refreshRepoList(event, emit) {
+    if (!isAlreadyRefreshCall) {
+      state.repoListItem!.clear();
+      paginatedPageNo = 1;
+      tempListItem.clear();
+      emit(state.copyWith(fetchRepoStatus: AppStatus.loading));
+      add(LoadRepoListEvent());
+      isAlreadyRefreshCall = true;
+    }
+    _apiCallTimer = Timer.periodic(
+      const Duration(minutes: 30),
+      (timer) {
+        isAlreadyRefreshCall = false;
+      },
+    );
+  }
+
   void _scrollListener(event, emit) async {
     if (state.scrollController?.position.pixels ==
         state.scrollController?.position.maxScrollExtent) {
       try {
-        emit(
-          state.copyWith(isMoreLoaded: true),
-        );
+        emit(state.copyWith(isMoreLoaded: true));
         paginatedPageNo++;
-        final newPosts = await _iRepoListRepository.fetchRepoList(
+        final newRepoItem = await _iRepoListRepository.fetchRepoList(
           _setParams(page: paginatedPageNo),
         );
 
         emit(
           state.copyWith(
             fetchRepoStatus: AppStatus.success,
-            repoListItem: [...state.repoListItem!, ...newPosts],
+            repoListItem: [...state.repoListItem!, ...newRepoItem],
           ),
         );
       } catch (e) {
         emit(state.copyWith(isMoreLoaded: false));
       }
     } else {
-      emit(
-        state.copyWith(isMoreLoaded: false),
-      );
+      emit(state.copyWith(isMoreLoaded: false));
     }
+  }
+
+  @override
+  Future<void> close() {
+    _apiCallTimer.cancel();
+    return super.close();
   }
 }

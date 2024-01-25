@@ -22,7 +22,8 @@ class _RepoListScreenState extends State<RepoListScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<RepoListBloc>().add(LoadRepoListEvent());
+    final repoBloc = context.read<RepoListBloc>();
+    repoBloc.add(LoadRepoListEvent());
   }
 
   @override
@@ -45,29 +46,36 @@ class _RepoListScreenState extends State<RepoListScreen> {
                     );
                   } else if (state.fetchRepoStatus == AppStatus.success) {
                     if (state.repoListItem?.isNotEmpty == true) {
-                      return ListView.separated(
-                        controller: state.scrollController,
-                        itemCount: (state.isMoreLoaded &&
-                                state.repoListItem!.length > 7)
-                            ? state.repoListItem!.length + 1
-                            : state.repoListItem!.length,
-                        separatorBuilder: (context, index) {
-                          return SizedBox(height: 10.h);
+                      return RefreshIndicator(
+                        onRefresh: () async {
+                          final repoBloc = context.read<RepoListBloc>();
+                          repoBloc.add(RefreshRepoListEvent());
                         },
-                        itemBuilder: (context, index) {
-                          if (state.isMoreLoaded &&
-                              index == state.repoListItem!.length &&
-                              state.repoListItem!.length > 7) {
-                            return Container(
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.all(8.r),
-                              child: const CircularProgressIndicator.adaptive(),
+                        child: ListView.separated(
+                          controller: state.scrollController,
+                          itemCount: (state.isMoreLoaded &&
+                                  state.repoListItem!.length > 7)
+                              ? state.repoListItem!.length + 1
+                              : state.repoListItem!.length,
+                          separatorBuilder: (context, index) {
+                            return SizedBox(height: 10.h);
+                          },
+                          itemBuilder: (context, index) {
+                            if (state.isMoreLoaded &&
+                                index == state.repoListItem!.length &&
+                                state.repoListItem!.length > 7) {
+                              return Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.all(8.r),
+                                child:
+                                    const CircularProgressIndicator.adaptive(),
+                              );
+                            }
+                            return RepoListItem(
+                              repoItem: state.repoListItem![index],
                             );
-                          }
-                          return RepoListItem(
-                            repoItem: state.repoListItem![index],
-                          );
-                        },
+                          },
+                        ),
                       );
                     } else {
                       return const Center(
