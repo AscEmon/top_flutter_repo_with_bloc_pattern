@@ -24,6 +24,7 @@ class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
         ) {
     on<LoadRepoListEvent>(_fetchRepos);
     on<RefreshRepoListEvent>(_refreshRepoList);
+    on<SortRepoListEvent>(_sortRepolist);
     state.scrollController?.addListener(() {
       add(PaginationListEvent());
     });
@@ -92,6 +93,18 @@ class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
     } else {
       emit(state.copyWith(isMoreLoaded: false));
     }
+  }
+
+  void _sortRepolist(event, emit) async {
+    final List<RepositoryItem> sortedList = List.from(state.repoListItem!);
+
+    sortedList.sort(
+      (a, b) => a.updatedAt!.compareTo(
+        b.updatedAt ?? DateTime.now(),
+      ),
+    );
+
+    emit(state.copyWith(repoListItem: sortedList));
   }
 
   @override

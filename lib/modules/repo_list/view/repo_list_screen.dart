@@ -28,8 +28,22 @@ class _RepoListScreenState extends State<RepoListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final repoBloc = context.read<RepoListBloc>();
     return Scaffold(
-      appBar: GlobalAppBar(title: "Top Flutter Repository"),
+      appBar: GlobalAppBar(
+        title: "Top Flutter Repository",
+        actions: [
+          GestureDetector(
+            onTap: () {
+              repoBloc.add(SortRepoListEvent());
+            },
+            child: const Icon(Icons.sort),
+          ),
+          SizedBox.square(
+            dimension: 10.w,
+          ),
+        ],
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: Column(
@@ -48,7 +62,6 @@ class _RepoListScreenState extends State<RepoListScreen> {
                     if (state.repoListItem?.isNotEmpty == true) {
                       return RefreshIndicator(
                         onRefresh: () async {
-                          final repoBloc = context.read<RepoListBloc>();
                           repoBloc.add(RefreshRepoListEvent());
                         },
                         child: ListView.separated(
