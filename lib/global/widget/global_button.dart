@@ -13,7 +13,7 @@ class GlobalButton extends StatelessWidget {
   final Color? btnBackgroundActiveColor;
   final double? textFontSize;
 
-  GlobalButton({
+  const GlobalButton({
     Key? key,
     required this.onPressed,
     required this.buttonText,
@@ -26,7 +26,7 @@ class GlobalButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color btnColor = btnBackgroundActiveColor ?? KColor.accent.color;
+    Color btnColor = btnBackgroundActiveColor ?? KColor.black.color;
 
     return ElevatedButton(
       style: ButtonStyle(
@@ -64,7 +64,3 @@ class GlobalButton extends StatelessWidget {
     );
   }
 }
-
-
-
- 

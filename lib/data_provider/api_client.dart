@@ -213,6 +213,12 @@ class ApiClient {
                   );
                 }
                 NetworkConnection.instance.apiStack = [];
+              } else {
+                Navigator.of(Navigation.key.currentState!.overlay!.context,
+                        rootNavigator: true)
+                    .pop();
+                  ViewUtil.isPresentedDialog = false;
+                
               }
             },
           );

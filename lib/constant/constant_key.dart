@@ -31,6 +31,7 @@ enum AppConstant {
   BN,
   FONTFAMILY,
   YYYY_MM_DD_THH_mm_ss_z,
+  HIVE_REPOLIST,
 }
 
 extension AppConstantExtention on AppConstant {
@@ -99,6 +100,8 @@ extension AppConstantExtention on AppConstant {
         return 'bn';
       case AppConstant.FONTFAMILY:
         return '';
+      case AppConstant.HIVE_REPOLIST:
+        return 'Hive_Repolist';
 
       default:
         return "";
