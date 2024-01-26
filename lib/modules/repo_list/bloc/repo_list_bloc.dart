@@ -77,14 +77,16 @@ class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
     if (state.scrollController?.position.pixels ==
         state.scrollController?.position.maxScrollExtent) {
       try {
-        if (!NetworkConnection.instance.isInternet) {
-          return;
-        }
         emit(state.copyWith(isMoreLoaded: true));
         paginatedPageNo++;
         final newRepoItem = await _iRepoListRepository.fetchRepoList(
           _setParams(page: paginatedPageNo),
         );
+
+        if (!NetworkConnection.instance.isInternet &&
+            isSameList(state.repoListItem!, newRepoItem)) {
+          return;
+        }
 
         emit(
           state.copyWith(
@@ -98,6 +100,14 @@ class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
     } else {
       emit(state.copyWith(isMoreLoaded: false));
     }
+  }
+
+  bool isSameList(
+      List<RepositoryItem> repoListItem, List<RepositoryItem> newRepoItem) {
+    var condition1 =
+        repoListItem.toSet().difference(newRepoItem.toSet()).isEmpty;
+    var condition2 = repoListItem.length == newRepoItem.length;
+    return condition1 && condition2;
   }
 
   void _sortRepolist(event, emit) async {
