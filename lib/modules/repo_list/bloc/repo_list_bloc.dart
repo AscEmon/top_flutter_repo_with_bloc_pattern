@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_flutter_repo/utils/network_connection.dart';
 
 import '../../../utils/enum.dart';
 import '../model/repo_list_response.dart';
@@ -56,6 +57,7 @@ class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
 
   void _refreshRepoList(event, emit) {
     if (!isAlreadyRefreshCall) {
+      if (!NetworkConnection.instance.isInternet) {}
       state.repoListItem!.clear();
       paginatedPageNo = 1;
       tempListItem.clear();
@@ -75,6 +77,9 @@ class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
     if (state.scrollController?.position.pixels ==
         state.scrollController?.position.maxScrollExtent) {
       try {
+        if (!NetworkConnection.instance.isInternet) {
+          return;
+        }
         emit(state.copyWith(isMoreLoaded: true));
         paginatedPageNo++;
         final newRepoItem = await _iRepoListRepository.fetchRepoList(

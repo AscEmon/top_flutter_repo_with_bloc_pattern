@@ -113,7 +113,6 @@ Future<String?> _getLocalPath() async {
   try {
     final Directory appDocumentsDirectory =
         await getApplicationDocumentsDirectory();
-    "Local path: ${appDocumentsDirectory.path}".log();
     return appDocumentsDirectory.path;
   } catch (e) {
     "local path: $e".log();
