@@ -13,11 +13,14 @@ I developed a simple Flutter application that displays the most-starred GitHub r
 ## Screenshots
 Include some screenshots of your application to give users a visual preview.
 
-![Screenshot 1](screenshots/screenshot1.png)
-*Caption for Screenshot 1*
-
-![Screenshot 2](screenshots/screenshot2.png)
-*Caption for Screenshot 2*
+![Screenshot 1](screenshots/repo_list.jpeg)
+*Initial Flutter Repository List*
+![Screenshot 2](screenshots/repo_details.jpeg)
+*Repository Details*
+![Screenshot 3](screenshots/offline.jpeg)
+*Offline Mode Browsing*
+![Screenshot 4](screenshots/sort_update_time.jpeg)
+*Sort By Updatetime*
 
 ## Project Architecture
 Here's a step-by-step explanation about my project architecture:
