@@ -1,4 +1,7 @@
 {
-    "cancel": "বাতিল করুন",
-    "yes": "হ্যাঁ"
+    "top_flutter_repo":"Top Flutter Repository",
+    "no_data_found":"No Data Found",
+    "error_occured":"Error occured",
+    "updated_at":"Updated At: ",
+    "url":"URL: "
 }
