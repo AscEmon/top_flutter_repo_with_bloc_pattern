@@ -24,7 +24,7 @@ class RepoListRepository implements IRepoListRepository {
         if (cachedData.isNotEmpty) {
           completer.complete(cachedData);
         } else {
-          completer.complete([]);
+           _makeNetworkRequest(params, completer);
         }
       } else {
         _makeNetworkRequest(params, completer);
@@ -39,7 +39,6 @@ class RepoListRepository implements IRepoListRepository {
 
   Future<List<RepositoryItem>> _loadCachedData() async {
     var box = await Hive.openBox<RepositoryItem>(AppConstant.HIVE_REPOLIST.key);
-    "box is :${box.values.length}".log();
     return box.values.toList();
   }
 
