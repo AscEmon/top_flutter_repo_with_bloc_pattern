@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_flutter_repo/constant/constant_key.dart';
+import 'package:top_flutter_repo/data_provider/pref_helper.dart';
 import 'package:top_flutter_repo/utils/network_connection.dart';
 
 import '../../../utils/enum.dart';
@@ -36,6 +38,9 @@ class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
       List<RepositoryItem> result =
           await _iRepoListRepository.fetchRepoList(_setParams());
       tempListItem.addAll(result);
+      if (PrefHelper.getBool(AppConstant.IS_SWITCHED.key)) {
+        add(SortRepoListEvent());
+      }
       emit(
         state.copyWith(
           fetchRepoStatus: AppStatus.success,
@@ -61,6 +66,7 @@ class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
       state.repoListItem!.clear();
       paginatedPageNo = 1;
       tempListItem.clear();
+      PrefHelper.setBool(AppConstant.IS_SWITCHED.key, false);
       emit(state.copyWith(fetchRepoStatus: AppStatus.loading));
       add(LoadRepoListEvent());
       isAlreadyRefreshCall = true;
@@ -118,7 +124,7 @@ class RepoListBloc extends Bloc<RepoListEvent, RepoListState> {
         b.updatedAt ?? DateTime.now(),
       ),
     );
-
+    PrefHelper.setBool(AppConstant.IS_SWITCHED.key, true);
     emit(state.copyWith(repoListItem: sortedList));
   }
 
