@@ -34,7 +34,9 @@ class RepoDetailsScreen extends StatelessWidget {
                 fit: BoxFit.fitWidth,
               ),
             ),
-            MiddleComponents(repositoryItem: repositoryItem),
+            MiddleComponents(
+              repositoryItem: repositoryItem,
+            ),
             if (repositoryItem.topics!.isNotEmpty) ...[
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),

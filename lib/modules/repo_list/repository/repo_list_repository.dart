@@ -69,8 +69,6 @@ class RepoListRepository implements IRepoListRepository {
     try {
       var box =
           await Hive.openBox<RepositoryItem>(AppConstant.HIVE_REPOLIST.key);
-
-      await box.clear();
       await box.addAll(items);
     } catch (e) {
       "Hive: $e".log();
