@@ -51,3 +51,7 @@ flutter build apk --dart-define=mode=DEV
 
 
 
+# Future Scope:
+- Unit testing 
+- Widget test
+- Integration testing
