@@ -30,8 +30,8 @@ class RepoListItem extends StatelessWidget {
         children: [
           Row(
             children: [
-              const GlobalText(
-                str: "URL: ",
+              GlobalText(
+                str: context.loc.url,
                 fontWeight: FontWeight.bold,
               ),
               Flexible(
@@ -44,8 +44,8 @@ class RepoListItem extends StatelessWidget {
           ),
           Row(
             children: [
-              const GlobalText(
-                str: "Updated At: ",
+              GlobalText(
+                str: context.loc.updated_at,
                 fontWeight: FontWeight.bold,
               ),
               GlobalText(

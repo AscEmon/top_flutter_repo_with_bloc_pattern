@@ -32,7 +32,7 @@ class _RepoListScreenState extends State<RepoListScreen> {
     final repoBloc = context.read<RepoListBloc>();
     return Scaffold(
       appBar: GlobalAppBar(
-        title: "Top Flutter Repository",
+        title: context.loc.top_flutter_repo,
         centerTitle: true,
         actions: [
           GestureDetector(
@@ -93,14 +93,14 @@ class _RepoListScreenState extends State<RepoListScreen> {
                         ),
                       );
                     } else {
-                      return const Center(
-                        child: GlobalText(str: "No Data Found"),
+                      return Center(
+                        child: GlobalText(str: context.loc.no_data_found),
                       );
                     }
                   } else if (state.fetchRepoStatus == AppStatus.error) {
                     return Center(
                       child: GlobalText(
-                        str: "Error occured",
+                        str: context.loc.error_occured,
                         color: KColor.red.color,
                       ),
                     );
