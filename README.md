@@ -8,6 +8,7 @@ I developed a simple Flutter application that displays the most-starred GitHub r
 - [Screenshots](#screenshots)
 - [Project Architecture](#project-architecture)
 - [Flavor Setup using --dart-define](#Flavor)
+- [Macos config](#Macos)
 
 
 ## Screenshots
@@ -49,6 +50,20 @@ flutter build apk --dart-define=mode=DEV
 
 ```
 
+## Macos config
+Macos configuration integrate. Now you can run this project in macos.If you want to build macos application file then use this below command.
+
+```
+flutter build macos --release    
+
+```
+
+N:B: if you face any issue to run your macos project and face internet connection issue to call api then add this below code in macos/Runner/DebugProfile.entilements
+
+```
+<key>com.apple.security.network.client</key>
+<true/>
+```
 
 
 # Future Scope:
