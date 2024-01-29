@@ -52,6 +52,7 @@ class RepoDetailsScreen extends StatelessWidget {
                   alignment: WrapAlignment.start,
                   crossAxisAlignment: WrapCrossAlignment.start,
                   spacing: 10,
+                  runSpacing: 10,
                   children: List.generate(
                     repositoryItem.topics!.length,
                     (index) => Chip(
