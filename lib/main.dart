@@ -17,6 +17,7 @@ import '/utils/enum.dart';
 import '/utils/navigation.dart';
 import '/utils/network_connection.dart';
 import '/utils/styles/k_colors.dart';
+import 'modules/movie_list/views/movie_list_screen.dart';
 import 'modules/repo_list/model/repo_list_response.dart';
 import 'modules/repo_list/view/repo_list_screen.dart';
 import 'utils/mixin/bloc_provider_mixin.dart';
@@ -87,7 +88,7 @@ class MyApp extends StatelessWidget with BlocProviderMixin {
           ),
         );
       },
-      child: const RepoListScreen(),
+      child: const MovieListScreen(),
     );
   }
 }

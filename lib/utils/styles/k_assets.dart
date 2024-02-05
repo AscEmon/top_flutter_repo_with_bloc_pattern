@@ -1,17 +1,26 @@
 enum KAssetName {
-  oil,
+  movie2Jpg,
+  movie3Jpg,
+  movie1Jpg,
+  movie4Jpg,
+  movie5Jpg,
 }
 
-extension AssetsExtention on KAssetName {
+extension AssetsExtension on KAssetName {
   String get imagePath {
-    String rootPath = 'assets';
-    String imageDir = '$rootPath/images';
-
+    const String _rootPath = 'assets';
+  const String _imagesDir = '$_rootPath/images';
     switch (this) {
-      case KAssetName.oil:
-        return "$imageDir/oil.png";
-      default:
-        return "";
+      case KAssetName.movie2Jpg:
+        return '$_imagesDir/movie2.jpg';
+      case KAssetName.movie3Jpg:
+        return '$_imagesDir/movie3.jpg';
+      case KAssetName.movie1Jpg:
+        return '$_imagesDir/movie1.jpg';
+      case KAssetName.movie4Jpg:
+        return '$_imagesDir/movie4.jpg';
+      case KAssetName.movie5Jpg:
+        return '$_imagesDir/movie5.jpg';
     }
   }
 }

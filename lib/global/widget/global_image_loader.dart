@@ -23,8 +23,9 @@ class GlobalImageLoader extends StatelessWidget {
         height: height,
         width: width,
         fit: fit,
-        errorBuilder: (context, exception, stackTrace) =>
-            const Icon(Icons.signal_wifi_connected_no_internet_4,),
+        errorBuilder: (context, exception, stackTrace) => const Icon(
+          Icons.signal_wifi_connected_no_internet_4,
+        ),
       );
     } else {
       return Image.asset(
