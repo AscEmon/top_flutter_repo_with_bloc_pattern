@@ -12,7 +12,7 @@ I developed a simple Flutter application that displays the most-starred GitHub r
 
 
 ## Video
-![Video](https://vimeo.com/910137729?share=copy)
+https://vimeo.com/910137729?share=copy
 
 
 
