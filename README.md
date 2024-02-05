@@ -8,19 +8,16 @@ I developed a simple Flutter application that displays the most-starred GitHub r
 - [Screenshots](#screenshots)
 - [Project Architecture](#project-architecture)
 - [Flavor Setup using --dart-define](#Flavor)
-- [Macos config](#Macos)
+- [Movie UI](#MovieUI)
 
 
 ## Screenshots
 Include some screenshots of your application to give users a visual preview.
 
-![Screenshot 1](screenshots/repo_list.jpeg)
-*Initial Flutter Repository List*
-![Screenshot 2](screenshots/repo_details.jpeg)
-*Repository Details*
-![Screenshot 3](screenshots/offline.jpeg)
-*Offline Mode Browsing*
-![Screenshot 4](screenshots/sort_update_time.jpeg)
+![Video](screenshots/record.mov)
+
+
+
 *Sort By Updatetime*
 
 ## Project Architecture
@@ -50,20 +47,9 @@ flutter build apk --dart-define=mode=DEV
 
 ```
 
-## Macos config
-Macos configuration integrate. Now you can run this project in macos.If you want to build macos application file then use this below command.
+## Movie UI
+Movie UI created by using listwheelscroll and also changed background image with bluf effect. Basically here you will see how to pass data from view to bloc so that it will update the state.
 
-```
-flutter build macos --release    
-
-```
-
-N:B: if you face any issue to run your macos project and face internet connection issue to call api then add this below code in macos/Runner/DebugProfile.entilements
-
-```
-<key>com.apple.security.network.client</key>
-<true/>
-```
 
 
 # Future Scope:
