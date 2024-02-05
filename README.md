@@ -14,7 +14,7 @@ I developed a simple Flutter application that displays the most-starred GitHub r
 ## Screenshots
 Include some screenshots of your application to give users a visual preview.
 
-![Video](screenshots/trim.mov)
+![Video](https://vimeo.com/910137729?share=copy)
 
 
 
