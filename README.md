@@ -5,7 +5,7 @@ I developed a simple Flutter application that displays the most-starred GitHub r
 
 
 ## Table of Contents
-- [Screenshots](#screenshots)
+- [Video](#video)
 - [Project Architecture](#project-architecture)
 - [Flavor Setup using --dart-define](#Flavor)
 - [Movie UI](#MovieUI)
@@ -14,7 +14,7 @@ I developed a simple Flutter application that displays the most-starred GitHub r
 ## Screenshots
 Include some screenshots of your application to give users a visual preview.
 
-![Video](screenshots/record.mov)
+![Video](screenshots/trim.mov)
 
 
 
